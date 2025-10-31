@@ -181,7 +181,7 @@ function IssueDiploma() {
     const session = localStorage.getItem('university_session');
     
     if (session) {
-      axios.post('https://veritrust-dozy.onrender.com/api/api/auth/logout', { sessionId: session })
+      axios.post('https://veritrust-dozy.onrender.com/api/auth/logout', { sessionId: session })
         .then(() => {
           localStorage.removeItem('university_session');
           localStorage.removeItem('university_data');
