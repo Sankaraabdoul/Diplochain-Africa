@@ -22,7 +22,7 @@ function Dashboard() {
     try {
       await new Promise(resolve => setTimeout(resolve, 500)); 
       
-      const response = await axios.get('http://localhost:5000/api/diplomas');
+      const response = await axios.get('https://veritrust-dozy.onrender.com/api/diplomas');
       const data = Array.isArray(response.data.data) ? response.data.data : [];
       setDiplomas(data);
       

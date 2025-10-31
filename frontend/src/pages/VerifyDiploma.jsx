@@ -22,7 +22,7 @@ function VerifyDiploma() {
     setResult(null);
 
     try {
-      const response = await axios.get(`http://localhost:5000/api/diplomas/verify/${serial}`);
+      const response = await axios.get(`https://veritrust-dozy.onrender.com/api/diplomas/verify/${serial}`);
       console.log('📡 Réponse reçue:', response.data);
       
       // Vérifier si le diplôme est dans la base de données ET valide
