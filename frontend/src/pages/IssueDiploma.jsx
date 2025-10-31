@@ -37,7 +37,7 @@ function IssueDiploma() {
     }
     
     // Vérifier que la session est valide
-    axios.post('http://localhost:5000/api/auth/verify', { sessionId: session })
+    axios.post('https://veritrust-dozy.onrender.com/api/auth/verify', { sessionId: session })
       .then(response => {
         const uni = response.data.data.university;
         setUniversity(uni);
