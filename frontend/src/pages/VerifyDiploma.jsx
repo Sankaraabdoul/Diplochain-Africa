@@ -23,13 +23,38 @@ function VerifyDiploma() {
 
     try {
       const response = await axios.get(`http://localhost:5000/api/diplomas/verify/${serial}`);
-      setResult(response.data);
-      console.log('✅ Vérification:', response.data);
+      console.log('📡 Réponse reçue:', response.data);
+      
+      // Vérifier si le diplôme est dans la base de données ET valide
+      if (response.data && response.data.valid && response.data.inDatabase !== false) {
+        setResult(response.data);
+        console.log('✅ Vérification:', response.data);
+      } else {
+        // Diplôme non trouvé dans la base ou invalide
+        setError({
+          message: response.data?.message || 'Diplôme non trouvé dans notre base de données',
+          valid: false
+        });
+        console.log('⚠️ Diplôme non trouvé ou invalide');
+      }
     } catch (err) {
-      setError(err.response?.data || { message: err.message, valid: false });
-      console.error('❌ Erreur vérification:', err);
+      // Gérer toutes les erreurs (404, 500, network, etc.)
+      console.log('❌ Erreur capturée:', err);
+      console.log('❌ Response:', err.response);
+      
+      const errorMessage = err.response?.data?.message || 
+                          err.response?.data?.error ||
+                          'Diplôme non trouvé dans la base de données';
+      
+      setError({
+        message: errorMessage,
+        valid: false,
+        statusCode: err.response?.status
+      });
+      console.error('❌ Erreur finale définie:', errorMessage);
     } finally {
       setLoading(false);
+      console.log('🏁 Loading terminé');
     }
   };
 
@@ -43,7 +68,7 @@ function VerifyDiploma() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      background: 'linear-gradient(135deg, #2e3e50 0%, #1a1f2e 100%)',
       padding: '40px 20px'
     }}>
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
@@ -53,8 +78,11 @@ function VerifyDiploma() {
           <h1 style={{ fontSize: '42px', color: 'white', marginBottom: '10px' }}>
             ✅ Vérifier un Diplôme
           </h1>
-          <p style={{ fontSize: '18px', color: '#f0f0f0' }}>
-            Vérifiez l'authenticité d'un diplôme sur la blockchain Hedera
+          <p style={{ fontSize: '18px', color: '#f0f0f0', marginBottom: '5px' }}>
+            Vérifiez l'authenticité d'un diplôme certifié sur Hedera Hashgraph
+          </p>
+          <p style={{ fontSize: '14px', color: '#22c55e', fontWeight: 'bold' }}>
+             🔷 Vérification instantanée sur réseau Hedera
           </p>
           <a href="/" style={{ color: 'white', marginTop: '10px', display: 'inline-block' }}>
             ← Retour à l'accueil
@@ -96,7 +124,7 @@ function VerifyDiploma() {
                   fontSize: '18px',
                   fontWeight: 'bold',
                   color: 'white',
-                  background: manualSerial.trim() ? 'linear-gradient(135deg, #2e3e50 0%, #764ba2 100%)' : '#ccc',
+                  background: manualSerial.trim() ? 'linear-gradient(135deg, #2e3e50 0%, #1a1f2e 100%)' : '#ccc',
                   border: 'none',
                   borderRadius: '8px',
                   cursor: manualSerial.trim() ? 'pointer' : 'not-allowed'
@@ -111,12 +139,13 @@ function VerifyDiploma() {
           <div style={{
             marginTop: '20px',
             padding: '15px',
-            background: '#f0f9ff',
+            background: '#f0fdf4',
+            border: '2px solid #22c55e',
             borderRadius: '8px',
             fontSize: '14px',
-            color: '#2e3e50'
+            color: '#065f46'
           }}>
-            💡 <strong>Astuce :</strong> Vous pouvez scanner le QR Code du diplôme ou entrer manuellement le numéro de série.
+            💡 <strong>Astuce :</strong> Scannez le QR Code du diplôme ou entrez le numéro de série pour une vérification instantanée sur Hedera Hashgraph.
           </div>
         </div>
 
@@ -134,8 +163,19 @@ function VerifyDiploma() {
               Vérification en cours...
             </h2>
             <p style={{ color: '#666', marginTop: '10px' }}>
-              Interrogation de la blockchain Hedera
+              Interrogation du réseau Hedera Hashgraph
             </p>
+            <div style={{
+              marginTop: '15px',
+              padding: '10px',
+              background: '#f0fdf4',
+              borderRadius: '5px',
+              fontSize: '13px',
+              color: '#22c55e',
+              fontWeight: 'bold'
+            }}>
+               🔷 Consensus en temps réel sur Hedera
+            </div>
           </div>
         )}
 
@@ -160,9 +200,21 @@ function VerifyDiploma() {
             }}>
               DIPLÔME AUTHENTIQUE
             </h2>
-            <p style={{ color: '#059669', fontSize: '18px', marginBottom: '30px' }}>
-              Ce diplôme est vérifié et certifié sur la blockchain Hedera
+            <p style={{ color: '#059669', fontSize: '18px', marginBottom: '10px' }}>
+              Ce diplôme est vérifié et certifié sur Hedera Hashgraph
             </p>
+            <div style={{
+              display: 'inline-block',
+              marginBottom: '30px',
+              padding: '8px 16px',
+              background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
+              borderRadius: '20px',
+              color: 'white',
+              fontSize: '13px',
+              fontWeight: 'bold'
+            }}>
+              🔷 Validated on Hedera Network
+            </div>
 
             {/* Informations du diplôme */}
             <div style={{
@@ -249,7 +301,7 @@ function VerifyDiploma() {
                   <strong style={{ color: '#065f46' }}>📄 Fichier PDF:</strong>
                   <span style={{ marginLeft: '10px' }}>{result.diploma.pdfFileName}</span>
                   <div style={{ marginTop: '10px' }}>
-                    <strong style={{ color: '#065f46', fontSize: '14px' }}>Hash SHA-256:</strong>
+                    <strong style={{ color: '#065f46', fontSize: '14px' }}>Hash SHA-256 (On-Chain):</strong>
                     <code style={{
                       display: 'block',
                       marginTop: '5px',
@@ -267,25 +319,25 @@ function VerifyDiploma() {
               )}
             </div>
 
-            {/* Blockchain Info */}
+            {/* Hedera Hashgraph Info */}
             {result.hedera && (
               <div style={{
-                background: '#eff6ff',
-                border: '2px solid #2e3e50',
+                background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+                border: '2px solid #22c55e',
                 borderRadius: '10px',
                 padding: '20px',
                 textAlign: 'left',
                 marginBottom: '30px'
               }}>
-                <h3 style={{ color: '#2e3e50', marginBottom: '15px', fontSize: '18px' }}>
-                  🔗 Informations Blockchain
+                <h3 style={{ color: '#065f46', marginBottom: '15px', fontSize: '18px' }}>
+                  🔷 Preuve de Certification Hedera Hashgraph
                 </h3>
                 
                 <div style={{ display: 'grid', gap: '10px', fontSize: '14px' }}>
                   {result.hedera.owner && (
                     <div>
-                      <strong style={{ color: '#2e3e50' }}>Propriétaire:</strong>
-                      <span style={{ marginLeft: '10px', fontFamily: 'monospace' }}>
+                      <strong style={{ color: '#065f46' }}>Account ID (Propriétaire):</strong>
+                      <span style={{ marginLeft: '10px', fontFamily: 'monospace', color: '#22c55e' }}>
                         {result.hedera.owner}
                       </span>
                     </div>
@@ -293,31 +345,42 @@ function VerifyDiploma() {
                   
                   {result.hedera.explorerUrl && (
                     <div>
-                      <strong style={{ color: '#2e3e50' }}>Transaction:</strong>
+                      <strong style={{ color: '#065f46' }}>Transaction Hedera:</strong>
                       <a 
                         href={result.hedera.explorerUrl}
                         target="_blank"
                         rel="noreferrer"
-                        style={{ marginLeft: '10px', color: '#2e3e50', wordBreak: 'break-all' }}
+                        style={{ marginLeft: '10px', color: '#16a34a', wordBreak: 'break-all', fontWeight: 'bold' }}
                       >
-                        Voir sur Hedera Explorer →
+                        🔗 Voir sur HashScan (Hedera Explorer) →
                       </a>
                     </div>
                   )}
                   
                   {result.hedera.tokenUrl && (
                     <div>
-                      <strong style={{ color: '#2e3e50' }}>Token:</strong>
+                      <strong style={{ color: '#065f46' }}>NFT Token (SBT):</strong>
                       <a 
                         href={result.hedera.tokenUrl}
                         target="_blank"
                         rel="noreferrer"
-                        style={{ marginLeft: '10px', color: '#3b82f6', wordBreak: 'break-all' }}
+                        style={{ marginLeft: '10px', color: '#16a34a', wordBreak: 'break-all', fontWeight: 'bold' }}
                       >
-                        Voir le NFT →
+                        🔗 Voir le Soulbound Token sur Hedera →
                       </a>
                     </div>
                   )}
+                </div>
+
+                <div style={{
+                  marginTop: '15px',
+                  padding: '12px',
+                  background: 'white',
+                  borderRadius: '8px',
+                  fontSize: '13px',
+                  color: '#065f46'
+                }}>
+                  <strong>✓ Consensus atteint</strong> | <strong>✓ Immuable</strong> | <strong>✓ Non-transférable (SBT)</strong>
                 </div>
               </div>
             )}
@@ -335,7 +398,7 @@ function VerifyDiploma() {
                   fontSize: '16px',
                   fontWeight: 'bold',
                   color: 'white',
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  background: 'linear-gradient(135deg, #2e3e50 0%, #1a1f2e 100%)',
                   border: 'none',
                   borderRadius: '8px',
                   cursor: 'pointer'
@@ -350,7 +413,7 @@ function VerifyDiploma() {
                   fontWeight: 'bold',
                   color: '#2e3e50',
                   background: 'white',
-                  border: '2px solid #667eea',
+                  border: '2px solid #2e3e50',
                   borderRadius: '8px',
                   cursor: 'pointer'
                 }}>
@@ -362,7 +425,7 @@ function VerifyDiploma() {
         )}
 
         {/* Résultat : Diplôme FRAUDULEUX ou INTROUVABLE */}
-        {(error || (result && !result.valid)) && !loading && (
+        {error && !loading && (
           <div style={{
             background: 'white',
             borderRadius: '15px',
@@ -380,11 +443,23 @@ function VerifyDiploma() {
               borderRadius: '10px',
               display: 'inline-block'
             }}>
-              {serialNumber ? 'DIPLÔME FRAUDULEUX' : 'DIPLÔME NON TROUVÉ'}
+              DIPLÔME NON TROUVÉ
             </h2>
-            <p style={{ color: '#dc2626', fontSize: '18px', marginBottom: '30px' }}>
-              {error?.message || result?.message || 'Ce diplôme n\'existe pas sur la blockchain'}
+            <p style={{ color: '#dc2626', fontSize: '18px', marginBottom: '10px' }}>
+              {error.message}
             </p>
+            <div style={{
+              display: 'inline-block',
+              marginBottom: '30px',
+              padding: '8px 16px',
+              background: '#fee2e2',
+              borderRadius: '20px',
+              color: '#991b1b',
+              fontSize: '13px',
+              fontWeight: 'bold'
+            }}>
+               🔷 Non trouvé sur le réseau Hedera
+            </div>
 
             <div style={{
               background: '#fef2f2',
@@ -395,13 +470,13 @@ function VerifyDiploma() {
               marginBottom: '30px'
             }}>
               <h3 style={{ color: '#991b1b', marginBottom: '15px' }}>
-                ⚠️ ATTENTION
+                ⚠️ ATTENTION - Document non vérifié sur Hedera Hashgraph
               </h3>
               <ul style={{ color: '#991b1b', lineHeight: '1.8', paddingLeft: '20px', margin: 0 }}>
-                <li>Ce diplôme n'est pas enregistré sur la blockchain Hedera</li>
+                <li>Ce diplôme n'est pas enregistré sur le réseau Hedera Hashgraph</li>
                 <li>Il peut s'agir d'un faux document</li>
                 <li>Vérifiez auprès de l'université émettrice</li>
-                <li>Signalez tout document frauduleux aux autorités</li>
+                <li>Signalez tout document frauduleux aux autorités compétentes</li>
               </ul>
             </div>
 
@@ -417,7 +492,7 @@ function VerifyDiploma() {
                   fontSize: '16px',
                   fontWeight: 'bold',
                   color: 'white',
-                  background: 'linear-gradient(135deg, #2e3e50 0%, #764ba2 100%)',
+                  background: 'linear-gradient(135deg, #2e3e50 0%, #1a1f2e 100%)',
                   border: 'none',
                   borderRadius: '8px',
                   cursor: 'pointer'

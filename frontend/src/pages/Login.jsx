@@ -57,7 +57,7 @@ function Login() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #2e3e50 0%, #764ba2 100%)',
+      background: 'linear-gradient(135deg, #2e3e50 0%, #1a1f2e 100%)',
       padding: '40px 20px',
       display: 'flex',
       alignItems: 'center',
@@ -70,8 +70,11 @@ function Login() {
           <h1 style={{ fontSize: '42px', color: 'white', marginBottom: '10px' }}>
             🏛️ Espace Université
           </h1>
-          <p style={{ fontSize: '18px', color: '#f0f0f0' }}>
+          <p style={{ fontSize: '18px', color: '#f0f0f0', marginBottom: '5px' }}>
             Connectez-vous pour émettre des diplômes
+          </p>
+          <p style={{ fontSize: '14px', color: '#a0aec0', marginBottom: '15px' }}>
+            Certifié sur <strong style={{ color: '#22c55e' }}>Hedera Hashgraph</strong>
           </p>
           <a href="/" style={{ color: 'white', marginTop: '10px', display: 'inline-block' }}>
             ← Retour à l'accueil
@@ -161,19 +164,33 @@ function Login() {
               fontSize: '18px',
               fontWeight: 'bold',
               color: 'white',
-              background: loading ? '#ccc' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              background: loading ? '#ccc' : 'linear-gradient(135deg, #2e3e50 0%, #1a1f2e 100%)',
               border: 'none',
               borderRadius: '8px',
               cursor: loading ? 'not-allowed' : 'pointer',
-              boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)'
+              boxShadow: '0 4px 15px rgba(46, 62, 80, 0.4)'
             }}
           >
             {loading ? '⏳ Connexion...' : '🔓 Se connecter'}
           </button>
 
+          {/* Badge Hedera */}
+          <div style={{
+            marginTop: '20px',
+            padding: '12px',
+            background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
+            borderRadius: '8px',
+            textAlign: 'center',
+            color: 'white',
+            fontSize: '13px',
+            fontWeight: 'bold'
+          }}>
+            ⛓️ Powered by Hedera Hashgraph Network
+          </div>
+
           {/* Info */}
           <div style={{
-            marginTop: '30px',
+            marginTop: '20px',
             padding: '20px',
             background: '#f0f9ff',
             borderRadius: '8px',

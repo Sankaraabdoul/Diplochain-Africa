@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, useLocation } from 'react-router-dom'; // useLocation est ajouté pour le style du lien actif
+import { Link, useLocation } from 'react-router-dom';
 
 function Dashboard() {
   const [diplomas, setDiplomas] = useState([]);
@@ -20,11 +20,9 @@ function Dashboard() {
   const loadDiplomas = async () => {
     setLoading(true);
     try {
-      // Simuler un délai de chargement pour mieux voir l'écran de chargement
       await new Promise(resolve => setTimeout(resolve, 500)); 
       
       const response = await axios.get('http://localhost:5000/api/diplomas');
-      // Assurez-vous que la réponse contient bien un tableau `data`
       const data = Array.isArray(response.data.data) ? response.data.data : [];
       setDiplomas(data);
       
@@ -43,7 +41,7 @@ function Dashboard() {
         total: data.length,
         byCountry,
         byType,
-        recent: data.slice(-5).reverse() // Prendre les 5 plus récents et les inverser
+        recent: data.slice(-5).reverse()
       });
       
     } catch (error) {
@@ -57,7 +55,7 @@ function Dashboard() {
     d.student?.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
     d.student?.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
     d.serialNumber?.toString().includes(searchTerm)
-  ).slice().reverse(); // .slice() pour créer une copie avant de reverse()
+  ).slice().reverse();
 
   const getCountryFlag = (country) => {
     const flags = {
@@ -69,7 +67,6 @@ function Dashboard() {
     return flags[country] || '🌍';
   };
 
-  // --- Composant Sidebar pour une meilleure organisation ---
   const Sidebar = () => {
     const location = useLocation();
     const navLinkStyle = (path) => ({
@@ -118,7 +115,7 @@ function Dashboard() {
         </nav>
 
         <div>
-           <Link to="/issue" style={{ textDecoration: 'none' }}> {/* Changé /login en /issue si c'est la page de création */}
+           <Link to="/issue" style={{ textDecoration: 'none' }}>
               <button style={{
                 width: '100%',
                 padding: '18px',
@@ -140,7 +137,6 @@ function Dashboard() {
     );
   };
   
-  // --- Composant StatCard pour réutiliser le style ---
   const StatCard = ({ icon, label, value, color = '#2c3e50' }) => (
     <div style={{
       background: 'white', borderRadius: '15px', padding: '25px',
@@ -177,7 +173,7 @@ function Dashboard() {
     <div style={{
       display: 'flex',
       minHeight: '100vh',
-      background: '#f4f7fa', // Fond légèrement plus doux
+      background: '#f4f7fa',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'
     }}>
       <Sidebar />
@@ -187,7 +183,6 @@ function Dashboard() {
         padding: '40px',
         overflowY: 'auto'
       }}>
-        {/* Header de la zone de contenu */}
         <header style={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -220,7 +215,6 @@ function Dashboard() {
           </div>
         </header>
 
-        {/* Grille des statistiques principales */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
@@ -230,17 +224,15 @@ function Dashboard() {
           <StatCard icon="🎓" label="Diplômes Certifiés" value={stats.total} color="#3498db" />
           <StatCard icon="🌍" label="Pays Actifs" value={Object.keys(stats.byCountry).length} color="#e67e22" />
           <StatCard icon="📚" label="Types de Diplômes" value={Object.keys(stats.byType).length} color="#9b59b6" />
-          <StatCard icon="⛓️" label="Blockchain Active" value="Hedera" color="#2ecc71" />
+          <StatCard icon="🔷" label="Hedera Hashgraph" value="Testnet" color="#2ecc71" />
         </div>
         
-        {/* Grille de contenu principale */}
         <div style={{
             display: 'grid',
-            gridTemplateColumns: 'minmax(0, 2fr) minmax(0, 1fr)', // Layout flexible
+            gridTemplateColumns: 'minmax(0, 2fr) minmax(0, 1fr)',
             gap: '30px',
             alignItems: 'start'
         }}>
-            {/* Colonne de gauche: Liste des diplômes */}
             <div style={{
                 background: 'white', borderRadius: '15px',
                 boxShadow: '0 8px 25px rgba(0,0,0,0.05)',
@@ -298,7 +290,6 @@ function Dashboard() {
                  </div>
             </div>
 
-            {/* Colonne de droite: Derniers diplômes et statistiques */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '30px', gridColumn: '2 / span 1' }}>
                 <div style={{
                     background: 'white', borderRadius: '15px', padding: '25px',

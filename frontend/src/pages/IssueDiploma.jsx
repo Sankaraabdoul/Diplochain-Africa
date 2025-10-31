@@ -63,7 +63,7 @@ function IssueDiploma() {
     return (
       <div style={{
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #2e3e50 0%, #764ba2 100%)',
+        background: 'linear-gradient(135deg, #764ba2 0%, #2e3e50 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
@@ -263,7 +263,7 @@ function IssueDiploma() {
                 Téléchargez le Diplôme PDF
               </h2>
               <p style={{ color: '#78350f', marginBottom: '20px', fontSize: '14px' }}>
-                Le document original sera hashé et vérifié sur la blockchain
+                Le document original sera hashé et vérifié sur Hedera Hashgraph
               </p>
               
               <input
@@ -602,7 +602,7 @@ function IssueDiploma() {
                 boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)'
               }}
             >
-              {loading ? '⏳ Création en cours... (Hash du PDF + Blockchain)' : '🚀 Créer le Diplôme sur Blockchain'}
+              {loading ? '⏳ Création en cours... (Hash du PDF + Hedera Hashgraph)' : '🚀 Créer le Diplôme sur Hedera Hashgraph'}
             </button>
           </form>
         )}

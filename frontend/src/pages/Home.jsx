@@ -22,7 +22,7 @@ function Home() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <span style={{ fontSize: '36px' }}>🎓</span>
           <div>
-            <div style={{ color: 'white', fontSize: '20px', fontWeight: 'bold' }}>DiploChain</div>
+            <div style={{ color: 'white', fontSize: '20px', fontWeight: 'bold' }}>VeriTrust</div>
             <div style={{ color: '#f39c12', fontSize: '16px' }}>Africa</div>
           </div>
         </div>
@@ -65,7 +65,7 @@ function Home() {
           }}>
             <span style={{ color: '#f39c12' }}>Certifiez Vos Diplômes</span>
             <br />
-            <span style={{ color: 'white' }}>sur la Blockchain</span>
+            <span style={{ color: 'white' }}>sur Hedera Hashgraph</span>
           </h1>
           
           <p style={{
@@ -74,7 +74,7 @@ function Home() {
             lineHeight: '1.6',
             marginBottom: '40px'
           }}>
-            DiploChain Africa utilise la technologie Hedera Hashgraph pour garantir 
+            VeriTrust Africa utilise la technologie Hedera Hashgraph pour garantir 
             l'authenticité et l'infalsifiabilité de vos diplômes académiques. 
             Une solution sécurisée, rapide et transparente pour les universités africaines.
           </p>
@@ -198,7 +198,7 @@ function Home() {
                 Diplôme Certifié
               </div>
               <div style={{ color: '#7f8c8d', fontSize: '14px', marginBottom: '20px' }}>
-                Blockchain Hedera
+                Hedera Hashgraph
               </div>
               <div style={{
                 background: '#f39c12',
