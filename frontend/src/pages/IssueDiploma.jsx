@@ -680,14 +680,14 @@ function IssueDiploma() {
                 <strong>Lien de vérification:</strong>
               </p>
               <a 
-                href={`/verify/${result.serialNumber}`}
+                href={`https://veritrust-1.onrender.com/verify/${result.serialNumber}`}
                 style={{
                   color: '#2e3e50',
                   fontSize: '16px',
                   wordBreak: 'break-all'
                 }}
               >
-                http://localhost:3000/verify/{result.serialNumber}
+                /{result.serialNumber}
               </a>
             </div>
 
