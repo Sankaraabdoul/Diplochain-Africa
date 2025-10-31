@@ -664,7 +664,7 @@ function IssueDiploma() {
                 borderRadius: '10px'
               }}>
                 <QRCode 
-                  value={`http://localhost:3000/verify/${result.serialNumber}`}
+                  value={`https://veritrust-1.onrender.com/verify/${result.serialNumber}`}
                   size={200}
                   level="H"
                 />
