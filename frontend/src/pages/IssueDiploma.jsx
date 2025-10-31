@@ -139,7 +139,7 @@ function IssueDiploma() {
         reader.readAsDataURL(pdfFile);
       });
 
-      const response = await axios.post('http://localhost:5000/api/diplomas/issue', {
+      const response = await axios.post('https://veritrust-dozy.onrender.com/api/diplomas/issue', {
         student: {
           fullName: formData.studentName,
           email: formData.studentEmail,
